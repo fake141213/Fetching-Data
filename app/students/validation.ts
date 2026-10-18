@@ -1,0 +1,31 @@
+import { z } from "zod";
+
+export const studentSchema = z.object({
+  studentCode: z
+    .string()
+    .trim()
+    .min(1, "กรุณากรอกรหัสนักศึกษา")
+    .max(20, "รหัสนักศึกษาต้องไม่เกิน 20 ตัวอักษร"),
+  name: z
+    .string()
+    .trim()
+    .min(1, "กรุณากรอกชื่อ-นามสกุล")
+    .max(100, "ชื่อ-นามสกุลต้องไม่เกิน 100 ตัวอักษร"),
+  email: z
+    .string()
+    .trim()
+    .email("รูปแบบ Email ไม่ถูกต้อง")
+    .or(z.literal(""))
+    .optional()
+    .transform((email) => email || null),
+  major: z
+    .string()
+    .trim()
+    .min(1, "กรุณากรอกสาขา")
+    .max(100, "ชื่อสาขาต้องไม่เกิน 100 ตัวอักษร"),
+  year: z
+    .number()
+    .int("ชั้นปีต้องเป็นจำนวนเต็ม")
+    .min(1, "ชั้นปีต้องไม่น้อยกว่า 1")
+    .max(8, "ชั้นปีต้องไม่มากกว่า 8"),
+});
